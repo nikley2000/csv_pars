@@ -4,7 +4,8 @@
 
 MyCSV::CSV::CSV(std::string path)
 {
-	fin.open(path);
+	
+	fin.open(path, std::ifstream::binary);
 	if (fin.is_open())
 	{
 
@@ -38,33 +39,32 @@ MyCSV::CSV::CSV(std::string path)
 		fin.clear();
 		fin.seekg(0);
 		unused = "";
-
-
-		while (!fin.eof())
+		for (size_t r = 0; r < rowCount; r++)
 		{
-			for (size_t r = 0; r < rowCount; r++)
+			if (columnCount <= 1)
 			{
 				for (size_t c = 0; c < columnCount; c++)
 				{
-					if (columnCount <=1)
-					{
-						fin >> unused;
-						std::cout << unused << std::endl;
-						table_mx[r][c] = unused;
-						unused = "";
-					}
-					else
-					{
-						std::getline(fin, unused, ',');
-						table_mx[r][c] = unused;
-						unused = "";
-					}
-					
+
+					fin >> unused;
+					std::cout << unused << std::endl;
+					table_mx[r][c] = unused;
+					unused = "";
+				}
+			}
+			else
+			{
+				std::getline(fin, unused);
+				for (size_t c = 0; c < columnCount; c++)
+				{
+					table_mx[r][c] = unused;
 				}
 				
+				unused = "";
 			}
-			
+				
 		}
+			
 
 		//table_mx[0][0] = "sdaasd";
 
@@ -73,7 +73,9 @@ MyCSV::CSV::CSV(std::string path)
 			"\ncolumn - " << columnCount << std::endl;
 
 
-		std::cout << table_mx[3][0] << std::endl;
+		std::cout << table_mx[0][0] << std::endl;
+		std::cout << table_mx[1][0] << std::endl;
+		std::cout << table_mx[2][0] << std::endl;
 	
 	}
 	else
