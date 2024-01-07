@@ -57,7 +57,31 @@ MyCSV::CSV::CSV(std::string path)
 				std::getline(fin, unused);
 				for (size_t c = 0; c < columnCount; c++)
 				{
-					table_mx[r][c] = unused;
+					std::string temp = "";
+					if (c <columnCount - 1)
+					{
+						for (size_t i = 0; i < unused.find_first_of(','); i++)
+						{
+							temp += unused[i];
+
+						}
+						unused = &unused[unused.find_first_of(',')+1];
+
+						table_mx[r][c] = temp;
+					}
+					else
+
+					{
+						for (size_t i = 0; i < unused.length(); i++)
+						{
+							temp += unused[i];
+
+						}
+
+						table_mx[r][c] = temp;
+					}
+					
+					
 				}
 				
 				unused = "";
@@ -73,9 +97,23 @@ MyCSV::CSV::CSV(std::string path)
 			"\ncolumn - " << columnCount << std::endl;
 
 
-		std::cout << table_mx[0][0] << std::endl;
-		std::cout << table_mx[1][0] << std::endl;
-		std::cout << table_mx[2][0] << std::endl;
+		for (size_t r = 0; r < rowCount; r++)
+		{
+			for (size_t c = 0; c < columnCount; c++)
+			{
+				if (c < columnCount - 1)
+				{
+					std::cout << table_mx[r][c] << ", ";
+				}
+				else
+				{
+					std::cout << table_mx[r][c];
+				}
+				
+			}
+			
+			std::cout << std::endl;
+		}
 	
 	}
 	else
