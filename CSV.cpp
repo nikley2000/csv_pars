@@ -47,7 +47,6 @@ MyCSV::CSV::CSV(std::string path)
 				{
 
 					fin >> unused;
-					std::cout << unused << std::endl;
 					table_mx[r][c] = unused;
 					unused = "";
 				}
@@ -66,18 +65,18 @@ MyCSV::CSV::CSV(std::string path)
 
 						}
 						unused = &unused[unused.find_first_of(',')+1];
-
 						table_mx[r][c] = temp;
 					}
 					else
 
 					{
+						
 						for (size_t i = 0; i < unused.length(); i++)
 						{
 							temp += unused[i];
 
 						}
-
+						temp.pop_back();
 						table_mx[r][c] = temp;
 					}
 					
@@ -94,26 +93,8 @@ MyCSV::CSV::CSV(std::string path)
 
 		unused = "";
 		std::cout << "row - " << rowCount <<
-			"\ncolumn - " << columnCount << std::endl;
+			"\ncolumn - " << columnCount << "\n" << std::endl;
 
-
-		for (size_t r = 0; r < rowCount; r++)
-		{
-			for (size_t c = 0; c < columnCount; c++)
-			{
-				if (c < columnCount - 1)
-				{
-					std::cout << table_mx[r][c] << ", ";
-				}
-				else
-				{
-					std::cout << table_mx[r][c];
-				}
-				
-			}
-			
-			std::cout << std::endl;
-		}
 	
 	}
 	else
@@ -126,4 +107,49 @@ MyCSV::CSV::~CSV()
 {
 	fin.close();
 	delete table_mx;
+}
+
+std::string** MyCSV::CSV::getTablePtr() const
+{
+	return table_mx;
+}
+
+std::string& MyCSV::CSV::operator() (const int index1, const int index2)
+{
+	return table_mx[index1][index2];
+}
+
+size_t  MyCSV::CSV::getRow() const
+{
+	return rowCount;
+}
+ 
+size_t MyCSV::CSV::getColumn() const
+{
+	return columnCount;
+}
+
+
+std::ostream& operator << (std::ostream& stream, const MyCSV::CSV& csv)
+{
+
+	for (size_t r = 0; r < csv.getRow(); r++)
+	{
+		for (size_t c = 0; c < csv.getColumn(); c++)
+		{
+			if (c < csv.getColumn() - 1)
+			{
+				stream << csv.getTablePtr()[r][c] << ", ";
+			}
+			else
+			{
+				std::cout << csv.getTablePtr()[r][c];
+			}
+
+		}
+
+		stream << "\n";
+
+	}
+	return stream;
 }

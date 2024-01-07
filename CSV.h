@@ -11,6 +11,10 @@ namespace MyCSV {
 		CSV(std::string path);
 		~CSV();
 
+		std::string** getTablePtr() const;
+		std::string& operator() (const int index1,const int index2);
+		size_t getRow() const;
+		size_t getColumn() const;
 	private:
 		std::ifstream fin;
 		short rowCount = 0;
@@ -19,8 +23,10 @@ namespace MyCSV {
 		
 	};
 
+	
+	
 }
 
 
 
-
+std::ostream& operator << (std::ostream& stream, const MyCSV::CSV& csv);
