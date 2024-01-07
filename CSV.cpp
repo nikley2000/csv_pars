@@ -137,14 +137,18 @@ std::ostream& operator << (std::ostream& stream, const MyCSV::CSV& csv)
 	{
 		for (size_t c = 0; c < csv.getColumn(); c++)
 		{
-			if (c < csv.getColumn() - 1)
+			if (c < csv.getColumn())
 			{
-				stream << csv.getTablePtr()[r][c] << ", ";
+				stream << csv.getTablePtr()[r][c];
+				for (size_t i = csv.getTablePtr()[r][c].length(); i < 12; i++)
+				{
+					stream << ' ';
+				}
 			}
-			else
+			/*else
 			{
 				std::cout << csv.getTablePtr()[r][c];
-			}
+			}*/
 
 		}
 
